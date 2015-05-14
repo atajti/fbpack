@@ -1,0 +1,10 @@
+Package: fbpack
+Type: Package
+Title: User-friendly Facebook-scraping
+Version: 1.0
+Date: 2015-04-19
+Author: Andras Tajti
+Maintainer: Andras Tajti <atajti@gmail.com>
+Description: This package provides user-friendly functions for scraping Facebook automatically. For this, it uses the RSelenium package's web-browser connection.
+License: GPL-3
+Depends: RSelenium, RCurl, RJSONIO, XML
