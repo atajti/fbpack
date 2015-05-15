@@ -14,11 +14,11 @@ The RSelenium packge connects R to the Selenium Web Driver, which allows the use
 programmatically as a real person. This became an opportunity to simulate a user browsing Facebook,
 and gather the data displayed in the browser.
 
-## Instaling
+## Installing
 Installing the package can be done with Hadley Wickham's devtools package:
 ```{r "package installation"}
 if(!require(devtools)){
-  install.packages(devtools)
+  install.packages("devtools")
 }
 devtools::install_github("atajti/fbpack")
 ```
