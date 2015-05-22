@@ -1,6 +1,21 @@
-get_user_friends <- function(user, login_name, login_password){
+get_user_friends <- function(user, login_name, login_password, ...){
   # returns a character vector, IDs and profile names of other users
   #  who can be displayed on the users Friends page.
+
+
+  #
+  # Function to find out wether the user logged in already
+  #
+  wait_for_user_login <- function(remDr){
+    login_done <- list()
+    while(length(login_done)==0){
+        tryCatch({login_done <- remDr$findElement(using = 'css selector',
+                   "div._4r_y")},
+            error = function(e){NULL},
+            warning=function(w){NULL})
+        }
+    return(remDr)
+  }
 
   #
   # get displayed friends
@@ -62,10 +77,8 @@ get_user_friends <- function(user, login_name, login_password){
   # open facebook, log in
   #
 
-  remDr <- remoteDriver(remoteServerAddr = "localhost", 
-                      port = 4444,
-                      browserName = "firefox"
-                      )
+
+  remDr <- remoteDriver$new(...)
   # open browser
   remDr$open()
   remDr$setImplicitWaitTimeout(5000)
@@ -74,18 +87,14 @@ get_user_friends <- function(user, login_name, login_password){
   remDr$navigate("http://www.facebook.com")
 
   # log in
-  webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
-  webElem$sendKeysToElement(list(login_name, key="tab"))
-  webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
-  webElem$sendKeysToElement(list(login_password, key="enter"))
-
-  # wait for login:
-  while(!exists("login_done")){
-      tryCatch({login_done <- remDr$findElement(using = 'xpath',
-                 "//*/div[@class = 'clearfix']")},
-          error = function(e){NULL},
-          warning=function(w){NULL})
-      }
+  if(!missing(login_name) & !missing(login_password)){
+    webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
+    webElem$sendKeysToElement(list(login_name, key="tab"))
+    webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
+    webElem$sendKeysToElement(list(login_password, key="enter"))
+  }
+  
+  remDr <- wait_for_user_login(remDr)
 
   #
   # collect friends profile ID
@@ -125,7 +134,7 @@ get_user_friends <- function(user, login_name, login_password){
 
   # close remote_driver
   remDr$close()
-  remDr$closeServer()
+  #remDr$closeServer()
 
   #
   # return data

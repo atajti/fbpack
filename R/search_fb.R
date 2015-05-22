@@ -2,21 +2,33 @@ search_fb <- function(x, login_name, login_password,
                       type=c("all", "users", "pages", "places",
                              "groups", "apps", "events"),
                       number_of_results=5,
-                      location, workplace, education){
+                      location, workplace, education, ...){
   # Search on Facebook for a given character string.
   # Type can be specified, default to user
   # location, workplace, education are for type="user"
   # number_of_results is the maximum number of returned links
   # a character vector with length number_of_results, containing links.
-  
+ 
+
+  #
+  # Function to find out wether the user logged in already
+  #
+  wait_for_user_login <- function(remDr){
+    login_done <- list()
+    while(length(login_done)==0){
+        tryCatch({login_done <- remDr$findElement(using = 'css selector',
+                   "div._4r_y")},
+            error = function(e){NULL},
+            warning=function(w){NULL})
+        }
+    return(remDr)
+  }
 
   #
   # open facebook, log in
   #
 
-  remDr <- remoteDriver(remoteServerAddr = "localhost", 
-                      port = 4444,
-                      browserName = "firefox")
+  remDr <- remoteDriver$new(...)
   # open browser
   remDr$open()
   remDr$setImplicitWaitTimeout(5000)
@@ -25,21 +37,14 @@ search_fb <- function(x, login_name, login_password,
   remDr$navigate("http://www.facebook.com")
 
   # log in
-  webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
-  webElem$sendKeysToElement(list(login_name, key="tab"))
-  webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
-  webElem$sendKeysToElement(list(login_password, key="enter"))
-
-  # wait for login:
-  # while(!exists("login_done")){
-  #     tryCatch({login_done <- remDr$findElement(using = 'class',
-  #                               value = "uiIconText")},
-  #       #'xpath', "//*/div[@class = 'clearfix']")},
-  #         error = function(e){NULL},
-  #         warning=function(w){NULL})
-  #     }
-  Sys.sleep(2)
-
+  if(!missing(login_name) & !missing(login_password)){
+    webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
+    webElem$sendKeysToElement(list(login_name, key="tab"))
+    webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
+    webElem$sendKeysToElement(list(login_password, key="enter"))
+  }
+  
+  remDr <- wait_for_user_login(remDr)
   #
   # navigate to search page, enter query if necessary
   #
