@@ -8,7 +8,7 @@ Search for profile links on Facebook
 This function provides an interface for Facebook search.
 }
 \usage{
-search_fb(x, login_name, login_password, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, location, workplace, education)
+search_fb(x, login_name, login_password, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, location, workplace, education, ...)
 }
 
 \arguments{
@@ -16,10 +16,10 @@ search_fb(x, login_name, login_password, type = c("all", "users", "pages", "plac
 one length character vector (or one to be coerced): the search string. slashes should be avoided.
 }
   \item{login_name}{
-one length character vector, containing the string which should be used for login. Either profile name, phone nuber or e-mail address.
+optional, one length character vector, containing the string which should be used for login. Either profile name, phone nuber or e-mail address. If not supplied, the user can log in in the browser.
 }
   \item{login_password}{
-one length character vector, containing the password. Although interactive login could be acchieved to avoid storing unencrypted passwords, this version does not supports this. Will be implemented later.
+optional, one length character vector, containing the password. If not supplied, the user can log in in the browser.
 }
   \item{type}{
 one length charactr vector, one of "all", "users", "pages", "places", "groups", "apps", "events", defaults to "all". Entity tipe, to filter search on Facebook.
@@ -36,11 +36,16 @@ optional, one length character vector. The name of a workplace which should be t
   \item{education}{
 optional, one length character vector. The name of a school or university which should be typed into the search filter, if  \code{type=="user"}.
 }
+  \item{...}{
+optiional arguments passed to \code{remoteDriver} to handtune browser.
+}
 }
 \details{
 The function searches for a given string with a given type. Ordering and quality of the results depends on Facebook's algorithm.
 
 \code{location}, \code{education} and \code{workplace} are typed into the search fields, and if there is any, the first offered string will be chosen.
+
+Interactive login is supported, if either \code{user_login} or \code{user_password} is missing, the function will wait until the user logs in.
 }
 \value{
 Character vector with the links of the entities.

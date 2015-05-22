@@ -8,7 +8,7 @@ Collecting profile names or IDs from the friends of the target user.
 A function to scan a user's friends' profile name. 
 }
 \usage{
-get_user_friends(user, login_name, login_password)
+get_user_friends(user, login_name, login_password, ...)
 }
 
 \arguments{
@@ -16,14 +16,19 @@ get_user_friends(user, login_name, login_password)
 one length character vector, the profile address of the target user, for example: "atajti" 
 }
   \item{login_name}{
-one length character vector, containing the string which should be used for login. Either profile name, phone nuber or e-mail address.
+Optioinal, one length character vector, containing the string which should be used for login. Either profile name, phone nuber or e-mail address. If not supplied, the user can login in the opening browser
 }
   \item{login_password}{
-one length character vector, containing the password. Although interactive login could be acchieved to avoid storing unencrypted passwords, this version does not supports this. Will be implemented later.
+Optional, one length character vector, containing the password. If not supplied, the user can login in the opening browser.
+}
+  \item{...}{
+Optional arguments passed to \code{remoteDriver}.
 }
 }
 \details{
 The function opens a browser through RSelenium, so be sure that \code{startServer} has been called a few seconds earlier - the server start needs some seconds. This inconvenience will be elliminated later.
+
+If either \code{login_name} or \code{login_password} missing, the function will wait until the user does not log in.
 }
 \value{
 A character vector with profile names/ids of the users who are allowed to see among the user's friends. These values can be used as the \code{user} argument of this function.
