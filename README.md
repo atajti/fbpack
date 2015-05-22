@@ -22,6 +22,8 @@ if(!require(devtools)){
 }
 devtools::install_github("atajti/fbpack")
 ```
+Systems running Windows in a non-English locale may run into problems with Rtools if its path contains letters with accents. If this is the case, one can download the files then run `install.packages("path/to/files", repos=NULL, type="source")`.
+
 Also, the Selenium Web Driver should be on the computer. The RSelenium package takes care of this if one runs the
 `RSeleium::checkForServer()` function.
 
@@ -38,8 +40,7 @@ see `?search_fb` and `?ger_user_friends`, or contact me.
 
 ## Draw backs, TO DOs
 The package is still under development. Its biggest problem the **dependence on a stable internet connection**,
-as timeouts can break the functions. To enhance its capabilities, an additional argument will appear in the functions
-to handtune the browser. 
+as timeouts can break the functions.
 
 These functions are still perform poorly in **terms** of speed and **memory-efficiency**. The first issue is hard -
 at least for me - as the stability and speed of loading is limiting wait times as well as robustness.
@@ -48,8 +49,8 @@ The Firefox browserconsumes much memory after a certain time and page load count
 found is to create a command line R script, and calling it from an other R session, each time start and close the
 Selenium server and clean the memory. This workaround also slows the workflow.
 
-Another issue is password **encryption**. In future versions, I plan to introduce interactive login, because the
-functions need the password as unencrypted strings. This solution would need functions which are working without
+Another issue is password **encryption**, because the
+functions need the password as unencrypted strings. One can use interactive login (login in the browser), but it is needed for every new call, so is not scalable. One solution would need functions which are working without
 new browsers, or some solutions to store and use cookies in an R session. Another solution would be the encryprion
 of the password string, but I could not find any function for this task.
 
