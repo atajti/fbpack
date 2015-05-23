@@ -8,7 +8,7 @@ Search for profile links on Facebook
 This function provides an interface for Facebook search.
 }
 \usage{
-search_fb(x, login_name, login_password, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, location, workplace, education, ...)
+search_fb(x, login_name, login_password, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, attributes, ...)
 }
 
 \arguments{
@@ -27,14 +27,8 @@ one length charactr vector, one of "all", "users", "pages", "places", "groups", 
   \item{number_of_results}{
 one length numeric vector, maximum number of profiles one wants as result.
 }
-  \item{location}{
-optional, one length character vector. The name of a city, town which should be typed into the search filter, if  \code{type=="user"}.
-}
-  \item{workplace}{
-optional, one length character vector. The name of a workplace which should be typed into the search filter, if  \code{type=="user"}.
-}
-  \item{education}{
-optional, one length character vector. The name of a school or university which should be typed into the search filter, if  \code{type=="user"}.
+  \item{attributes}{
+optional, named list or vector with search filter to be used in case of user search. Filters I encountered are \code{Location}, \code{Workplace}, \code{Education}, \code{Mutual friends}.
 }
   \item{...}{
 optiional arguments passed to \code{remoteDriver} to handtune browser.
@@ -46,6 +40,9 @@ The function searches for a given string with a given type. Ordering and quality
 \code{location}, \code{education} and \code{workplace} are typed into the search fields, and if there is any, the first offered string will be chosen.
 
 Interactive login is supported, if either \code{user_login} or \code{user_password} is missing, the function will wait until the user logs in.
+
+The attributes argument must be a named list or vector, with names chosen from
+the given list, or any other filter type which occurs on Facebook.
 }
 \value{
 Character vector with the links of the entities.
