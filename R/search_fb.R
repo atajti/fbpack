@@ -95,7 +95,8 @@ search_fb <- function(x, login_name, login_password,
           input_field$sendKeysToElement(list(key="tab"))
           Sys.sleep(0.5)},
           warning=function(w){paste0(search_filters[i], " may not be used.\n", w)},
-          error=function(e){paste0(search_filters[i], " may not be used.\n", e)})
+          error=function(e){paste0(search_filters[i], " may not be used.\n", e)
+                            remDr$close()})
       }
     }
 
