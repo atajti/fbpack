@@ -17,10 +17,34 @@ login_fb <- function(login_name, login_password, ...){
     return(remDr)
   }
 
-  startServer()
-  Sys.sleep(3)
-  remDr <- remoteDriver$new(...)
-  # open browser
+
+  # non.docker style solution:
+  #
+  # startServer()
+  # Sys.sleep(3)
+  # remDr <- remoteDriver$new(...)
+  # # open browser
+  # remDr$open()
+  # remDr$setImplicitWaitTimeout(5000)
+  # remDr$setTimeout("page load", 10000)
+  
+  # docker-style solution:
+  #
+  # check for running selenium image, if none, then stop:
+  if(!any(grepl("selenium", system("docker ps", intern=TRUE)))){
+    stop("No running Selenium docker image found!")
+  }
+  # start remote driver, depending on os type
+  if(grepl("win", Sys.info()["sysname"], ignore.case=TRUE)){
+    remDr <- remoteDriver(remoteServerAddr = "192.168.99.100",
+                          port = 4445L,
+                          ...)
+  } else if(grepl("linux", Sys.info()["sysname"], ignore.case=TRUE)){
+    remDr <- remoteDriver(port = 4445L,
+                          ...)
+  }
+  
+
   remDr$open()
   remDr$setImplicitWaitTimeout(5000)
   remDr$setTimeout("page load", 10000)
