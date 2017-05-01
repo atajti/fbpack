@@ -9,8 +9,8 @@ login_fb <- function(login_name, login_password, ...){
     startime <- Sys.time()
     login_done <- list()
     while(length(login_done)==0 | Sys.time()-startime < 5){
-        tryCatch({login_done <- remDr$findElement(using = 'css selector',
-                   "div._4r_y")},
+        tryCatch({login_done <- remDr$findElement(using = 'id',
+                   "pagelet_bluebar")},
             error = function(e){NULL},
             warning=function(w){NULL})
         }
@@ -50,6 +50,7 @@ login_fb <- function(login_name, login_password, ...){
   remDr$setTimeout("page load", 10000)
   # navigate to facebook.com
   remDr$navigate("http://www.facebook.com")
+
 
  
   # log in
