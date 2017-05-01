@@ -7,10 +7,11 @@ get_user_friends <- function(user, login_name, login_password, ...){
   # Function to find out wether the user logged in already
   #
   wait_for_user_login <- function(remDr){
+    startime <- Sys.time()
     login_done <- list()
-    while(length(login_done)==0){
-        tryCatch({login_done <- remDr$findElement(using = 'css selector',
-                   "div._4r_y")},
+    while(length(login_done)==0 | Sys.time()-startime < 5){
+        tryCatch({login_done <- remDr$findElement(using = 'id',
+                   "pagelet_bluebar")},
             error = function(e){NULL},
             warning=function(w){NULL})
         }
@@ -78,7 +79,25 @@ get_user_friends <- function(user, login_name, login_password, ...){
   #
 
 
-  remDr <- remoteDriver$new(...)
+  # remDr <- remoteDriver$new(...)
+
+  # docker-style solution:
+  #
+  # check for running selenium image, if none, then stop:
+  if(!any(grepl("selenium", system("docker ps", intern=TRUE)))){
+    stop("No running Selenium docker image found!")
+  }
+  # start remote driver, depending on os type
+  if(grepl("win", Sys.info()["sysname"], ignore.case=TRUE)){
+    remDr <- remoteDriver(remoteServerAddr = "192.168.99.100",
+                          port = 4445L,
+                          ...)
+  } else if(grepl("linux", Sys.info()["sysname"], ignore.case=TRUE)){
+    remDr <- remoteDriver(port = 4445L,
+                          ...)
+  }
+
+
   # open browser
   remDr$open()
   remDr$setImplicitWaitTimeout(5000)
