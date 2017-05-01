@@ -69,25 +69,25 @@ login_fb <- function(login_name, login_password, ...){
 
   Sys.sleep(0.5)
   # check if we have logged in too often
-  tryCatch({often_login <-remDr$findElement("css selector",
-                                            "dim.pam.login_error_box.uiBoxRed")},
-    error = function(e){NULL},
-    warning=function(w){NULL})
-  if("often_login" %in% ls()){
-    message("waiting 15 minutess before new login...\n")
-    Sys.sleep(15*60)
-    message("Done, logging in...\n")
-    tryCatch({
-      if(!missing(login_name) & !missing(login_password)){
-        webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
-        webElem$sendKeysToElement(list(login_name, key="tab"))
-        webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
-        webElem$sendKeysToElement(list(login_password, key="enter"))
-      }},
-      error=function(e){warning(paste0("Error:\n",e))
-                        remDr$close()},
-      warning=function(w){warning(paste0("Warning:\n",w))})
-  }
+  # tryCatch({often_login <-remDr$findElement("css selector",
+  #                                           "dim.pam.login_error_box.uiBoxRed")},
+  #   error = function(e){NULL},
+  #   warning=function(w){NULL})
+  # if("often_login" %in% ls()){
+  #   message("waiting 15 minutess before new login...\n")
+  #   Sys.sleep(15*60)
+  #   message("Done, logging in...\n")
+  #   tryCatch({
+  #     if(!missing(login_name) & !missing(login_password)){
+  #       webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
+  #       webElem$sendKeysToElement(list(login_name, key="tab"))
+  #       webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
+  #       webElem$sendKeysToElement(list(login_password, key="enter"))
+  #     }},
+  #     error=function(e){warning(paste0("Error:\n",e))
+  #                       remDr$close()},
+  #     warning=function(w){warning(paste0("Warning:\n",w))})
+  # }
   
   remDr <- wait_for_user_login(remDr)
   return(remDr)
