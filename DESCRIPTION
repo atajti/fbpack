@@ -1,7 +1,7 @@
 Package: fbpack
 Type: Package
 Title: User-friendly Facebook-scraping
-Version: 1.0.0.1
+Version: 2.0.0.0
 Date: 2015-04-19
 Author: Andras Tajti
 Maintainer: Andras Tajti <atajti@gmail.com>

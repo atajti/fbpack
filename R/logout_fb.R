@@ -7,8 +7,8 @@ logout_fb <- function(remDr){
     log_out_element$clickElement()
 
     log_out_form <- remDr$findElements(using = "class name",
-                         value = "_54nc")
-    log_out_form <- log_out_form[[length(log_out_form)-2]]
+                         value = "_54nh")
+    log_out_form <- log_out_form[[length(log_out_form)]]
     log_out_form$clickElement()},
     error=function(e){warning(paste0("Error:\n", e))
                       return(found_entities[1:number_of_results])
