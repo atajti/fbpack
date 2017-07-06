@@ -1,4 +1,4 @@
-search_fb <- function(x, login_name, login_password,
+search_fb <- function(x, remDr,
                       type=c("all", "users", "pages", "places",
                              "groups", "apps", "events"),
                       number_of_results=5, attributes, ...){
@@ -12,44 +12,44 @@ search_fb <- function(x, login_name, login_password,
   #
   # Function to find out wether the user logged in already
   #
-  wait_for_user_login <- function(remDr){
-    startime <- Sys.time()
-    login_done <- list()
-    while(length(login_done)==0 | Sys.time()-startime < 5){
-        tryCatch({login_done <- remDr$findElement(using = 'css selector',
-                   "div._4r_y")},
-            error = function(e){NULL},
-            warning=function(w){NULL})
-        }
-    return(remDr)
-  }
+  # wait_for_user_login <- function(remDr){
+  #   startime <- Sys.time()
+  #   login_done <- list()
+  #   while(length(login_done)==0 | Sys.time()-startime < 5){
+  #       tryCatch({login_done <- remDr$findElement(using = 'css selector',
+  #                  "div._4r_y")},
+  #           error = function(e){NULL},
+  #           warning=function(w){NULL})
+  #       }
+  #   return(remDr)
+  # }
 
   #
   # open facebook, log in
   #
 
-  remDr <- remoteDriver$new(...)
-  # open browser
-  remDr$open()
-  remDr$setImplicitWaitTimeout(5000)
-  remDr$setTimeout("page load", 10000)
-  # navigate to facebook.com
-  remDr$navigate("http://www.facebook.com")
+  # remDr <- remoteDriver$new(...)
+  # # open browser
+  # remDr$open()
+  # remDr$setImplicitWaitTimeout(5000)
+  # remDr$setTimeout("page load", 10000)
+  # # navigate to facebook.com
+  # remDr$navigate("http://www.facebook.com")
 
-  # log in
-  # tryCatch needed if something fails
-  tryCatch({
-    if(!missing(login_name) & !missing(login_password)){
-      webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
-      webElem$sendKeysToElement(list(login_name, key="tab"))
-      webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
-      webElem$sendKeysToElement(list(login_password, key="enter"))
-    }},
-    error=function(e){message(e)},
-    warning=function(w){message(w)},
-    finally=function(){remDr$close()})
+  # # log in
+  # # tryCatch needed if something fails
+  # tryCatch({
+  #   if(!missing(login_name) & !missing(login_password)){
+  #     webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
+  #     webElem$sendKeysToElement(list(login_name, key="tab"))
+  #     webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
+  #     webElem$sendKeysToElement(list(login_password, key="enter"))
+  #   }},
+  #   error=function(e){message(e)},
+  #   warning=function(w){message(w)},
+  #   finally=function(){remDr$close()})
   
-  remDr <- wait_for_user_login(remDr)
+  # remDr <- wait_for_user_login(remDr)
   #
   # navigate to search page, enter query if necessary
   #
@@ -208,27 +208,28 @@ search_fb <- function(x, login_name, login_password,
     #}
   # Log out, close browser
   #
-  tryCatch({
-    log_out_element <- remDr$findElement(using = "id",
-                         value = "pageLoginAnchor")
-    log_out_element$clickElement()
+  # tryCatch({
+  #   log_out_element <- remDr$findElement(using = "id",
+  #                        value = "pageLoginAnchor")
+  #   log_out_element$clickElement()
 
-    log_out_form <- remDr$findElements(using = "class name",
-                         value = "_54nc")
-    log_out_form <- log_out_form[[length(log_out_form)-2]]
-    log_out_form$clickElement()},
-    error=function(e){warning(paste0("Error:\n", e))
-                      return(found_entities[1:number_of_results])
-                      remDr$close()},
-    warning=function(w){warning(paste0("Warning:\n", w))
-                      return(found_entities[1:number_of_results])
-                      remDr$close()})
+  #   log_out_form <- remDr$findElements(using = "class name",
+  #                        value = "_54nc")
+  #   log_out_form <- log_out_form[[length(log_out_form)-2]]
+  #   log_out_form$clickElement()},
+  #   error=function(e){warning(paste0("Error:\n", e))
+  #                     return(found_entities[1:number_of_results])
+  #                     remDr$close()},
+  #   warning=function(w){warning(paste0("Warning:\n", w))
+  #                     return(found_entities[1:number_of_results])
+  #                     remDr$close()})
   # close remote_driver, write data, clear everything and close R
-  remDr$close()
+  # remDr$close()
 
   #
   # Return data
   #
 
-  return(found_entities[1:number_of_results])
+  return(found_entities=found_entities[1:number_of_results],
+         remote_driver=remDr)
 }

@@ -8,18 +8,15 @@ Search for profile links on Facebook
 This function provides an interface for Facebook search.
 }
 \usage{
-search_fb(x, login_name, login_password, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, attributes, ...)
+search_fb(x, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, attributes, ...)
 }
 
 \arguments{
   \item{x}{
 one length character vector (or one to be coerced): the search string. slashes should be avoided.
 }
-  \item{login_name}{
-optional, one length character vector, containing the string which should be used for login. Either profile name, phone nuber or e-mail address. If not supplied, the user can log in in the browser.
-}
-  \item{login_password}{
-optional, one length character vector, containing the password. If not supplied, the user can log in in the browser.
+  \item{remDr}{
+  Loggend in remote driver, result of \code{login_fb}
 }
   \item{type}{
 one length charactr vector, one of "all", "users", "pages", "places", "groups", "apps", "events", defaults to "all". Entity tipe, to filter search on Facebook.
@@ -45,7 +42,12 @@ The attributes argument must be a named list or vector, with names chosen from
 the given list, or any other filter type which occurs on Facebook.
 }
 \value{
-Character vector with the links of the entities.
+  \item{found_entities}{
+  	Character vector with the links of the entities.
+  }
+  \item{remote_driver}{
+    the browser to be passed to other functions, like \code{logout_fb}
+  }
 }
 \references{
 %% ~put references to the literature/web site here ~
