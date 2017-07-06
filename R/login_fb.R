@@ -31,9 +31,9 @@ login_fb <- function(login_name, login_password, ...){
   # docker-style solution:
   #
   # check for running selenium image, if none, then stop:
-  if(!any(grepl("selenium", system("docker ps", intern=TRUE)))){
-    stop("No running Selenium docker image found!")
-  }
+  # if(!any(grepl("selenium", system("docker ps", intern=TRUE)))){
+  #   stop("No running Selenium docker image found!")
+  # }
   # start remote driver, depending on os type
   if(grepl("win", Sys.info()["sysname"], ignore.case=TRUE)){
     remDr <- remoteDriver(remoteServerAddr = "192.168.99.100",

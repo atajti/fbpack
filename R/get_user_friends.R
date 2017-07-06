@@ -1,4 +1,4 @@
-get_user_friends <- function(user, login_name, login_password, ...){
+get_user_friends <- function(user, remDr){
   # returns a character vector, IDs and profile names of other users
   #  who can be displayed on the users Friends page.
 
@@ -84,36 +84,36 @@ get_user_friends <- function(user, login_name, login_password, ...){
   # docker-style solution:
   #
   # check for running selenium image, if none, then stop:
-  if(!any(grepl("selenium", system("docker ps", intern=TRUE)))){
-    stop("No running Selenium docker image found!")
-  }
+  # if(!any(grepl("selenium", system("docker ps", intern=TRUE)))){
+  #   stop("No running Selenium docker image found!")
+  # }
   # start remote driver, depending on os type
-  if(grepl("win", Sys.info()["sysname"], ignore.case=TRUE)){
-    remDr <- remoteDriver(remoteServerAddr = "192.168.99.100",
-                          port = 4445L,
-                          ...)
-  } else if(grepl("linux", Sys.info()["sysname"], ignore.case=TRUE)){
-    remDr <- remoteDriver(port = 4445L,
-                          ...)
-  }
+  # if(grepl("win", Sys.info()["sysname"], ignore.case=TRUE)){
+  #   remDr <- remoteDriver(remoteServerAddr = "192.168.99.100",
+  #                         port = 4445L,
+  #                         ...)
+  # } else if(grepl("linux", Sys.info()["sysname"], ignore.case=TRUE)){
+  #   remDr <- remoteDriver(port = 4445L,
+  #                         ...)
+  # }
 
 
   # open browser
-  remDr$open()
-  remDr$setImplicitWaitTimeout(5000)
-  remDr$setTimeout("page load", 10000)
-  # navigate to facebook.com
-  remDr$navigate("http://www.facebook.com")
+  # remDr$open()
+  # remDr$setImplicitWaitTimeout(5000)
+  # remDr$setTimeout("page load", 10000)
+  # # navigate to facebook.com
+  # remDr$navigate("http://www.facebook.com")
 
-  # log in
-  if(!missing(login_name) & !missing(login_password)){
-    webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
-    webElem$sendKeysToElement(list(login_name, key="tab"))
-    webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
-    webElem$sendKeysToElement(list(login_password, key="enter"))
-  }
+  # # log in
+  # if(!missing(login_name) & !missing(login_password)){
+  #   webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'email']")
+  #   webElem$sendKeysToElement(list(login_name, key="tab"))
+  #   webElem <- remDr$findElement(using = 'xpath', "//*/input[@id = 'pass']")
+  #   webElem$sendKeysToElement(list(login_password, key="enter"))
+  # }
   
-  remDr <- wait_for_user_login(remDr)
+  # remDr <- wait_for_user_login(remDr)
 
   #
   # collect friends profile ID
@@ -142,23 +142,23 @@ get_user_friends <- function(user, login_name, login_password, ...){
   # log out and close browser
   #
 
-  log_out_element <- remDr$findElement(using = "id",
-                       value = "pageLoginAnchor")
-  log_out_element$clickElement()
+  # log_out_element <- remDr$findElement(using = "id",
+  #                      value = "pageLoginAnchor")
+  # log_out_element$clickElement()
 
-  log_out_form <- remDr$findElements(using = "class name",
-                       value = "_54nc")
-  log_out_form <- log_out_form[[length(log_out_form)-2]]
-  log_out_form$clickElement()
+  # log_out_form <- remDr$findElements(using = "class name",
+  #                      value = "_54nc")
+  # log_out_form <- log_out_form[[length(log_out_form)-2]]
+  # log_out_form$clickElement()
 
-  # close remote_driver
-  remDr$close()
+  # # close remote_driver
+  # remDr$close()
   #remDr$closeServer()
 
   #
   # return data
   # 
-  return(f_list)
+  return(list(friend_list=f_list, remote_driver=remDr))
 
 
 }

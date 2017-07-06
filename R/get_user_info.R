@@ -1,6 +1,6 @@
 # get_user_info()
-get_user_info <- function(user, login_name, login_password, ...){
-  remDr <- login_fb(login_name, login_password, ...)
+get_user_info <- function(user, remDr){
+  #remDr <- login_fb(login_name, login_password, ...)
 
   # go to profile_page
   suppressWarnings({
@@ -48,6 +48,6 @@ get_user_info <- function(user, login_name, login_password, ...){
     }
   }
 
-  logout_fb(remDr)
-  return(user_info)
+  # logout_fb(remDr)
+  return(list(user_info=user_info, remote_driver=remDr))
 }
