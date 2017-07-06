@@ -8,7 +8,8 @@ Search for profile links on Facebook
 This function provides an interface for Facebook search.
 }
 \usage{
-search_fb(x, type = c("all", "users", "pages", "places", "groups", "apps", "events"), number_of_results = 5, attributes, ...)
+search_fb(x, remDr, type = c("all", "users", "pages", "places", "groups", "apps"
+  , "events"), number_of_results = 5, attributes, ...)
 }
 
 \arguments{

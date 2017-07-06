@@ -5,6 +5,9 @@ Version: 2.0.0.1
 Date: 2015-04-19
 Author: Andras Tajti
 Maintainer: Andras Tajti <atajti@gmail.com>
-Description: This package provides user-friendly functions for scraping Facebook automatically. For this, it uses the RSelenium package's web-browser connection.
+Description: This package provides user-friendly functions for scraping Facebook
+    automatically. For this, it uses the RSelenium package's web-browser connection.
 License: GPL-3
-Depends: RSelenium, RCurl, RJSONIO, XML
+Depends:
+    RSelenium
+RoxygenNote: 5.0.1

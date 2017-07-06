@@ -8,21 +8,15 @@ Download profile data
 This function provides a way to get informations provided by the user on his/her Facebook profile.
 }
 \usage{
-get_user_info(user, login_name, login_password, ...)
+get_user_info(user,remDr)
 }
 
 \arguments{
   \item{user}{
 one length character or numeric, containing the Facebook profile ID.
 }
-  \item{login_name}{
-optional, one length character vector, containing the string which should be used for login. Either profile name, phone nuber or e-mail address. If not supplied, the user can log in in the browser.
-}
-  \item{login_password}{
-optional, one length character vector, containing the password. If not supplied, the user can log in in the browser.
-}
-  \item{...}{
-optiional arguments passed to \code{remoteDriver} to handtune browser.
+  \item{remDr}{
+  remote driver, a.k.a. the browser to manipulate, result e.g. \code{login_fb}
 }
 }
 \details{
@@ -33,16 +27,21 @@ Interactive login is supported, if either \code{user_login} or \code{user_passwo
 Soon the function (and others) will be updated to handle more than one length character and numeric vectors within one call.
 }
 \value{
-A list with items corresponding to valid sections an the users "about" page:
-  \item{Overview}{section not yet used}
-  \item{Work and Education}{Contains subsections as a list}
-  \item{Places He/She/You Lived}{}
-  \item{Contact and Basic Info}{}
-  \item{Family and Relationships}{}
-  \item{Details About}{}
-  \item{Life Events}{}
-
-  Names depends on the language the user set for Facebook.
+  \item{user_info}{
+  A list with items corresponding to valid sections an the users "about" page:
+    \item{Overview}{section not yet used}
+    \item{Work and Education}{Contains subsections as a list}
+    \item{Places He/She/You Lived}{}
+    \item{Contact and Basic Info}{}
+    \item{Family and Relationships}{}
+    \item{Details About}{}
+    \item{Life Events}{}
+  
+    Names depends on the language the user set for Facebook.
+  }
+  \item{remote_driver}{
+    The browser to pass to other functions, like \code{logout_fb}
+  }
 }
 \author{
 Andras Tajti

@@ -1,4 +1,5 @@
 \name{login_fb}
+\alias{login_fb}
 \alias{logout_fb}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
